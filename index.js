@@ -13,6 +13,6 @@ app.get("/", (req, res) => {
 	res.render("index.ejs", {});
 });
 
-app.listen( 8080, () => {
+app.listen( process.env.port || 8080, () => {
 	console.log("App launched! Go to http://localhost:8080/ to see");
 });

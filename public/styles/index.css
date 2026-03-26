@@ -1,0 +1,92 @@
+html, body { margin: 0; }
+
+html {
+	/* PRIMARY COLORS */
+	--primary-orange: #ff6b35;
+	--primary-blue: #2d2b55;
+	--background-color: #fcfcfc;
+	--background-dark: #dadada;
+	--foreground-color: #0c0c0c;
+}
+
+@font-face {
+	font-family: "RapierZero";
+	src: url(/fonts/RapierZero.otf) format('opentype');
+}
+
+.flex-spacer { flex-grow: 3; }
+.dynamic-underline {
+	--underline-height: 2px;
+	--underline-padding: 0px;
+	--underline-percentage: 100%;
+	--underline-speed: 500ms;
+	--underline-color: var(--primary-blue);
+	position: relative;
+}
+.dynamic-underline::after {
+	content: "";
+	display: block;
+	background-color: var(--underline-color);
+	position: absolute;
+	bottom: calc(-1 * var(--underline-height) - var(--underline-padding));
+	left: 50%; transform: translateX(-50%); /* Center Ourselves with parent */
+	height: var(--underline-height);
+	width: 0;
+	transition: width var(--underline-speed);
+}
+.dynamic-underline:hover::after {
+	width: var(--underline-percentage);
+}
+
+body {
+	background: var(--background-color);
+	color: var(--foreground-color);
+	font-family: sans-serif;
+}
+
+/* Begin Header Stuff */
+header {
+	--header-font-size: 28pt;
+	font-family: RapierZero, sans-serif;
+	font-size: var(--header-font-size);
+	height: calc(2*var(--header-font-size));
+	border-bottom: 1px solid var(--primary-blue);
+	padding: 0 0.5ch;
+	gap: 0.5ch;
+
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	
+	background: var(--background-dark);
+}
+
+header>div.logo {
+	position: relative;
+	text-shadow: 1px 1px 1px white;
+}
+header>img.logo {
+	height: calc(2*var(--header-font-size) - 10px);
+	width: calc(2*var(--header-font-size) - 10px);
+	filter: drop-shadow(1px 1px 2px black);
+}
+
+.banner-buttons {
+	display: flex;
+	flex-direction: row;
+	gap: 1px;
+	font-family: sans-serif;
+	font-size: 14pt;
+	margin: 0 2ch;
+
+	background-color: var(--primary-blue);
+	border: 1px solid var(--primary-blue);
+	border-radius: 0.5ch;
+	overflow: hidden;
+}
+.banner-buttons>a {
+	background-color: var(--background-dark);
+	padding: 2px 1ch;
+}
+
+/* End Header Stuff*/

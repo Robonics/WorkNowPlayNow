@@ -89,106 +89,21 @@ header>img.logo {
 	padding: 2px 1ch;
 }
 
-/* End Header Stuff*/
+footer {
+	border-top: 1px solid var(--primary-blue);
+	background-color: var(--background-dark);
+	padding: 5px;
+}
 
-/* Begin Main Content */
-main {
+.footer-links {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+}
+.footer-links>.links {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-}
-
-.hero {
-	width: 100%;
-	padding: 80px 20px;
 	text-align: center;
-	background: linear-gradient(135deg, var(--background-dark) 0%, var(--background-color) 100%);
-	border-bottom: 2px solid var(--primary-blue);
 }
-
-.hero-content {
-	max-width: 800px;
-	margin: 0 auto;
-}
-
-.hero-content h1 {
-	font-family: RapierZero, sans-serif;
-	font-size: 48px;
-	margin: 0 0 20px 0;
-	color: var(--foreground-color);
-}
-
-.hero-content .tagline {
-	font-size: 20px;
-	color: #555;
-	margin: 0 0 30px 0;
-	line-height: 1.6;
-}
-
-.cta-button {
-	padding: 14px 40px;
-	font-size: 16px;
-	font-weight: bold;
-	background: linear-gradient(135deg, var(--primary-blue), var(--primary-orange));
-	color: white;
-	border: none;
-	border-radius: 8px;
-	cursor: pointer;
-	transition: transform 0.2s, box-shadow 0.2s;
-	box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-.cta-button:hover {
-	transform: translateY(-2px);
-	box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-.features {
-	width: 100%;
-	max-width: 1200px;
-	padding: 60px 20px;
-	margin: 0 auto;
-}
-
-.features h2 {
-	font-family: RapierZero, sans-serif;
-	font-size: 36px;
-	text-align: center;
-	margin-bottom: 50px;
-	color: var(--primary-blue);
-}
-
-.features-grid {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-	gap: 30px;
-	margin-top: 30px;
-}
-
-.feature-card {
-	background: white;
-	padding: 30px;
-	border-radius: 10px;
-	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-	border-left: 4px solid var(--primary-orange);
-	transition: transform 0.3s, box-shadow 0.3s;
-}
-
-.feature-card:hover {
-	transform: translateY(-5px);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.feature-card h3 {
-	font-size: 20px;
-	color: var(--primary-blue);
-	margin: 0 0 15px 0;
-}
-
-.feature-card p {
-	color: #666;
-	line-height: 1.6;
-	margin: 0;
-}
-
-/* End Main Content */
+/* End Header Stuff*/

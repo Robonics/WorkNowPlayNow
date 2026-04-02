@@ -16,6 +16,6 @@ app.get("/", (req, res) => {
 	res.redirect("/index.html");
 });
 
-app.listen( process.env.port || 8080, () => {
-	console.log("App launched! Go to http://localhost:8080/ to see");
+app.listen( process.env.PORT || 8080, () => {
+	console.log(`App launched! Go to http://localhost:${process.env.PORT || 8080}/ to see`);
 });

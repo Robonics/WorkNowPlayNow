@@ -1,1 +1,0 @@
-sudo mariadb < setup.sql

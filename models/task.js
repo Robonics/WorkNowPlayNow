@@ -1,6 +1,7 @@
 class Task {
-  constructor(id, title, category, description, completed = false) {
+  constructor(id, created_at, title, category, description, completed = false) {
     this.id = id;
+    this.created_at = created_at
     this.title = title;
     this.category = category;
     this.description = description;

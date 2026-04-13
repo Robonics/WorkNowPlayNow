@@ -13,9 +13,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.use('/auth', require('./routes/auth'));
-app.use('/tasks', require('./routes/tasks'));
-app.use('/goals', require('./routes/goals'));
+app.use('/auth',    require('./routes/auth'));
+app.use('/tasks',   require('./routes/tasks'));
+app.use('/goals',   require('./routes/goals'));
+app.use('/points',  require('./routes/points'));
+app.use('/streaks', require('./routes/streaks'));
 
 app.get("/", (req, res) => {
   res.redirect("/index.html");

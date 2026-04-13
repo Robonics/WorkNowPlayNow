@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../lib/supabase');
 const { Task, categories } = require('../models/task');
+const { awardPoints } = require('../lib/points');
 const requireAuth = require('../middlewares/auth');
 
 router.use(requireAuth);
@@ -91,19 +92,28 @@ router.put('/:id', async (req, res, next) => {
   if (error) return next(error);
   if (!data) return res.status(404).json({ error: 'Task not found' });
 
-  res.json(Task.fromDB(data));
+  // Award points when a task is marked completed
+  let pointsAwarded = null;
+  if (status === 'completed') {
+    try {
+      pointsAwarded = await awardPoints(req.user.id, 'task', data.id);
+    } catch (pointsError) {
+      console.error('Points award failed:', pointsError.message);
+    }
+  }
+
+  res.json({ ...Task.fromDB(data).toJSON(), pointsAwarded });
 });
 
 // DELETE /tasks/:id - delete a task for the signed-in user
 router.delete('/:id', async (req, res, next) => {
-  const { error, count } = await db
+  const { error } = await db
     .from('tasks')
     .delete()
     .eq('id', req.params.id)
     .eq('user_id', req.user.id);
 
   if (error) return next(error);
-  if (count === 0) return res.status(404).json({ error: 'Task not found' });
 
   res.status(204).send();
 });

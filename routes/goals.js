@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../lib/supabase');
 const { Goal, GoalProgress } = require('../models/goal');
+const { awardPoints } = require('../lib/points');
 const requireAuth = require('../middlewares/auth');
 
 router.use(requireAuth);
@@ -70,7 +71,7 @@ router.post('/', async (req, res, next) => {
   res.status(201).json(Goal.fromDB(data));
 });
 
-// PUT /goals/:id - update a goal's title, description, or completed status
+// PUT /goals/:id - update a goal
 router.put('/:id', async (req, res, next) => {
   const { title, description, completed } = req.body;
 
@@ -94,7 +95,17 @@ router.put('/:id', async (req, res, next) => {
   if (error) return next(error);
   if (!data) return res.status(404).json({ error: 'Goal not found' });
 
-  res.json(Goal.fromDB(data));
+  // Award points when a goal is marked completed
+  let pointsAwarded = null;
+  if (completed === true) {
+    try {
+      pointsAwarded = await awardPoints(req.user.id, 'goal', data.id);
+    } catch (pointsError) {
+      console.error('Points award failed:', pointsError.message);
+    }
+  }
+
+  res.json({ ...Goal.fromDB(data).toJSON(), pointsAwarded });
 });
 
 // DELETE /goals/:id - delete a goal (cascades to goal_progress)
@@ -110,7 +121,7 @@ router.delete('/:id', async (req, res, next) => {
   res.status(204).send();
 });
 
-// POST /goals/:id/progress - record a new progress entry for a goal
+// POST /goals/:id/progress - record a new progress entry
 router.post('/:id/progress', async (req, res, next) => {
   const { percent_complete } = req.body;
 
@@ -123,17 +134,14 @@ router.post('/:id/progress', async (req, res, next) => {
     return res.status(400).json({ error: 'percent_complete must be a number between 0 and 100' });
   }
 
-  // Verify the goal belongs to this user before logging progress
   const { data: goal, error: goalError } = await db
     .from('goals')
-    .select('id')
+    .select('id, completed')
     .eq('id', req.params.id)
     .eq('user_id', req.user.id)
     .single();
 
-  if (goalError || !goal) {
-    return res.status(404).json({ error: 'Goal not found' });
-  }
+  if (goalError || !goal) return res.status(404).json({ error: 'Goal not found' });
 
   const { data, error } = await db
     .from('goal_progress')
@@ -147,15 +155,18 @@ router.post('/:id/progress', async (req, res, next) => {
 
   if (error) return next(error);
 
-  // Auto-complete the goal if progress hits 100%
-  if (value === 100) {
-    await db
-      .from('goals')
-      .update({ completed: true })
-      .eq('id', req.params.id);
+  // Auto-complete the goal and award points if progress hits 100%
+  let pointsAwarded = null;
+  if (value === 100 && !goal.completed) {
+    await db.from('goals').update({ completed: true }).eq('id', req.params.id);
+    try {
+      pointsAwarded = await awardPoints(req.user.id, 'goal', req.params.id);
+    } catch (pointsError) {
+      console.error('Points award failed:', pointsError.message);
+    }
   }
 
-  res.status(201).json(GoalProgress.fromDB(data));
+  res.status(201).json({ ...GoalProgress.fromDB(data).toJSON(), pointsAwarded });
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const db = require('../lib/supabase');
+const { getAuthClient } = require('../lib/supabase');
 const { Task, categories } = require('../models/task');
 const { awardPoints } = require('../lib/points');
 const requireAuth = require('../middlewares/auth');

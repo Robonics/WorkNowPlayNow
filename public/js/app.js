@@ -10,9 +10,13 @@ function toast(message, type = 'info') {
 }
 
 async function getSession() {
+  if (!window.supabase) {
+    window.location.replace('/index.html');
+    return null;
+  }
   const { data, error } = await window.supabase.auth.getSession();
   if (error || !data?.session) {
-    window.location.href = '/';
+    window.location.replace('/index.html');
     return null;
   }
   return data.session;

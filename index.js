@@ -5,8 +5,6 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 
-const db = require("./lib/supabase.js");
-
 app.use(cors());
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -20,8 +18,8 @@ app.use('/points',     require('./routes/points'));
 app.use('/streaks',    require('./routes/streaks'));
 app.use('/categories', require('./routes/categories'));
 
-app.get("/", (req, res) => {
-  res.redirect("/index.html");
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.use((err, req, res, next) => {

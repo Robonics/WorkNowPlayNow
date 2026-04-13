@@ -9,9 +9,11 @@ router.use(requireAuth);
 // Returns current streak, longest streak, and any milestone bonus earned
 router.post('/login', async (req, res, next) => {
   try {
+    console.log('User ID:', req.user.id);
     const result = await recordLogin(req.user.id);
     res.json(result);
   } catch (err) {
+    console.error('Streak error:', err);
     next(err);
   }
 });

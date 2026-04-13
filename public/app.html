@@ -1,55 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="/styles/index.css" />
-    <title>Work Now, Play Now - App</title>
-  </head>
-  <body>
-    <header>
-      <img class="logo" src="/image/logo_512.png" alt="logo_512" />
-      <div class="logo"><span style="color: var(--primary-blue)">Work Now</span>, <span style="color: var(--primary-orange)">Play Now</span></div>
-      <div class="flex-spacer"></div>
-      <div class="banner-buttons">
-        <button id="sign-out" class="dynamic-underline" style="--underline-padding: -2px;">Sign Out</button>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Now, Play Now — Dashboard</title>
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="icon" href="/favicon.ico">
+</head>
+<body>
+
+  <header>
+    <img class="logo-img" src="/image/logo_512.png" alt="logo">
+    <div class="logo-text">
+      <span class="work">Work Now</span>, <span class="play">Play Now</span>
+    </div>
+    <div class="flex-spacer"></div>
+    <div id="header-badges" style="display:flex; gap:8px; align-items:center;">
+      <span class="streak-badge" id="header-streak">🔥 — day streak</span>
+      <span class="points-badge" id="header-points">⭐ — pts</span>
+    </div>
+    <div class="banner-buttons" style="margin-left:16px;">
+      <button id="sign-out">Sign Out</button>
+    </div>
+    <div id="auth-status" class="auth-status"></div>
+  </header>
+
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-section">Navigation</div>
+      <button class="sidebar-item active" data-view="tasks">
+        <span class="icon">✅</span> Tasks
+      </button>
+      <button class="sidebar-item" data-view="goals">
+        <span class="icon">🎯</span> Goals
+      </button>
+
+      <div class="sidebar-section">Stats</div>
+      <div class="stat-card">
+        <div class="stat-label">🔥 Current Streak</div>
+        <div class="stat-value" id="sidebar-streak">—</div>
+        <div class="stat-sub" id="sidebar-streak-sub">days in a row</div>
       </div>
-      <div id="auth-status" class="auth-status">Loading auth...</div>
-    </header>
+      <div class="stat-card">
+        <div class="stat-label">⭐ Total Points</div>
+        <div class="stat-value" id="sidebar-points">—</div>
+        <div class="stat-sub">lifetime earned</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">📋 Tasks Done</div>
+        <div class="stat-value" id="sidebar-tasks-done">—</div>
+        <div class="stat-sub">completed total</div>
+      </div>
+    </aside>
 
-    <main>
-      <section class="hero">
-        <div class="hero-content">
-          <h1>Your Task Dashboard</h1>
-          <p>Only signed-in users can access this page.</p>
+    <!-- Main Content -->
+    <main class="app-main">
+
+      <!-- Tasks View -->
+      <div id="view-tasks">
+        <div class="app-main-header">
+          <h2>My Tasks</h2>
+          <button class="btn btn-primary" id="toggle-task-form">+ New Task</button>
         </div>
-      </section>
 
-      <section class="features">
-        <h2>Tasks</h2>
-        <form id="task-form" class="task-form">
-          <input id="task-name" type="text" placeholder="Task name" required />
-          <select id="task-category" required>
-            <option value="">Choose category</option>
-          </select>
-          <textarea id="task-description" placeholder="Description (optional)"></textarea>
-          <button type="submit" class="cta-button">Add Task</button>
-        </form>
-        <div id="tasks-container" class="features-grid"></div>
-      </section>
+        <!-- Add Task Form (hidden by default) -->
+        <div id="task-form-wrapper" style="display:none;">
+          <form id="task-form" class="task-form">
+            <div>
+              <div class="task-form-title">Task Title *</div>
+              <input type="text" id="task-title" placeholder="What needs to be done?" required>
+            </div>
+            <div>
+              <div class="task-form-title">Category</div>
+              <select id="task-category">
+                <option value="">No category</option>
+              </select>
+            </div>
+            <div>
+              <div class="task-form-title">Goal (optional)</div>
+              <select id="task-goal">
+                <option value="">No goal</option>
+              </select>
+            </div>
+            <div>
+              <div class="task-form-title">Due Date (optional)</div>
+              <input type="datetime-local" id="task-due-date">
+            </div>
+            <div class="full-width">
+              <div class="task-form-title">Description (optional)</div>
+              <textarea id="task-description" placeholder="Any extra details..."></textarea>
+            </div>
+            <div class="full-width" style="display:flex; gap:10px; justify-content:flex-end;">
+              <button type="button" class="btn btn-ghost" id="cancel-task-form">Cancel</button>
+              <button type="submit" class="btn btn-primary">Add Task</button>
+            </div>
+          </form>
+        </div>
+
+        <!-- Filter bar -->
+        <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
+          <button class="btn btn-secondary filter-btn active" data-filter="all">All</button>
+          <button class="btn btn-secondary filter-btn" data-filter="pending">Pending</button>
+          <button class="btn btn-secondary filter-btn" data-filter="in_progress">In Progress</button>
+          <button class="btn btn-secondary filter-btn" data-filter="completed">Completed</button>
+        </div>
+
+        <div id="tasks-container" class="tasks-grid"></div>
+      </div>
+
+      <!-- Goals View (hidden by default) -->
+      <div id="view-goals" style="display:none;">
+        <div class="app-main-header">
+          <h2>My Goals</h2>
+          <button class="btn btn-primary" id="toggle-goal-form">+ New Goal</button>
+        </div>
+
+        <!-- Add Goal Form (hidden by default) -->
+        <div id="goal-form-wrapper" style="display:none;">
+          <form id="goal-form" class="task-form">
+            <div class="full-width">
+              <div class="task-form-title">Goal Title *</div>
+              <input type="text" id="goal-title" placeholder="What do you want to achieve?" required>
+            </div>
+            <div class="full-width">
+              <div class="task-form-title">Description (optional)</div>
+              <textarea id="goal-description" placeholder="Describe your goal..."></textarea>
+            </div>
+            <div class="full-width" style="display:flex; gap:10px; justify-content:flex-end;">
+              <button type="button" class="btn btn-ghost" id="cancel-goal-form">Cancel</button>
+              <button type="submit" class="btn btn-primary">Add Goal</button>
+            </div>
+          </form>
+        </div>
+
+        <div id="goals-container" class="tasks-grid"></div>
+      </div>
+
     </main>
+  </div>
 
-    <footer>
-      <div class="footer-links">
-        <div class="links">
-          <a>Privacy Policy</a>
-          <a>Terms of Service</a>
-        </div>
-      </div>
-      <div>&copy; Copyright 2026 WorkNow-PlayNow Team</div>
-    </footer>
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
 
-    <script type="module" src="/js/auth.js"></script>
-    <script type="module" src="/js/app.js"></script>
-  </body>
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+    </div>
+    <div>&copy; 2026 Work Now, Play Now. All rights reserved.</div>
+  </footer>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module" src="/js/app.js"></script>
+
+</body>
 </html>

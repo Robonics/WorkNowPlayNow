@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { getAuthClient } = require('../lib/supabase');
-const { Task, categories } = require('../models/task');
+const { Task } = require('../models/task');
 const { awardPoints } = require('../lib/points');
 const requireAuth = require('../middlewares/auth');
 
@@ -11,18 +11,18 @@ router.get('/', async (req, res, next) => {
   const db = getAuthClient(req.token);
   const { data, error } = await db
     .from('tasks')
-    .select('id, created_at, title, description, status, category, goal_id, due_date, reminder_time, reminder_sent, user_id')
+    .select('id, created_at, title, description, status, category_id, goal_id, due_date, reminder_time, reminder_sent, user_id')
     .eq('user_id', req.user.id)
     .order('created_at', { ascending: false });
   if (error) return next(error);
-  res.json({ tasks: data.map(Task.fromDB), categories });
+  res.json({ tasks: data.map(Task.fromDB) });
 });
 
 router.get('/:id', async (req, res, next) => {
   const db = getAuthClient(req.token);
   const { data, error } = await db
     .from('tasks')
-    .select('id, created_at, title, description, status, category, goal_id, due_date, reminder_time, reminder_sent, user_id')
+    .select('id, created_at, title, description, status, category_id, goal_id, due_date, reminder_time, reminder_sent, user_id')
     .eq('id', req.params.id)
     .eq('user_id', req.user.id)
     .single();
@@ -33,11 +33,21 @@ router.get('/:id', async (req, res, next) => {
 
 router.post('/', async (req, res, next) => {
   const db = getAuthClient(req.token);
-  const { title, description = '', category = null, goal_id = null, due_date = null, reminder_time = null } = req.body;
+  const { title, description = '', category_id = null, goal_id = null, due_date = null, reminder_time = null } = req.body;
   if (!title) return res.status(400).json({ error: 'Title is required' });
   const { data, error } = await db
     .from('tasks')
-    .insert([{ user_id: req.user.id, title, description, category, goal_id, due_date, reminder_time, status: 'pending', reminder_sent: false }])
+    .insert([{
+      user_id: req.user.id,
+      title,
+      description,
+      category_id,
+      goal_id,
+      due_date,
+      reminder_time,
+      status: 'pending',
+      reminder_sent: false,
+    }])
     .select()
     .single();
   if (error) return next(error);
@@ -46,12 +56,12 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   const db = getAuthClient(req.token);
-  const { title, description, status, category, goal_id, due_date, reminder_time } = req.body;
+  const { title, description, status, category_id, goal_id, due_date, reminder_time } = req.body;
   const updates = {};
   if (title !== undefined)         updates.title = title;
   if (description !== undefined)   updates.description = description;
   if (status !== undefined)        updates.status = status;
-  if (category !== undefined)      updates.category = category;
+  if (category_id !== undefined)   updates.category_id = category_id;
   if (goal_id !== undefined)       updates.goal_id = goal_id;
   if (due_date !== undefined)      updates.due_date = due_date;
   if (reminder_time !== undefined) updates.reminder_time = reminder_time;

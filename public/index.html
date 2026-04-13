@@ -1,92 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<link rel="stylesheet" href="/styles/index.css">
-		<title>Work Now, Play Now</title>
-		<meta property="og:title" content="Work Now, Play Now">
-		<meta property="og:description" content="A planning app designed like a game, to help you meet your goals.">
-	</head>
-	<body>
-		<header>
-			<img class="logo" src="/image/logo_512.png" alt="logo_512">
-			<div class="logo"><span style="color: var(--primary-blue)">Work Now</span>, <span style="color: var(--primary-orange)">Play Now</span></div>
-			<div class="flex-spacer"></div>
-			<div class="banner-buttons">
-				<button id="sign-up" class="dynamic-underline" style="--underline-padding: -2px;">Sign Up</button>
-				<button id="login" class="dynamic-underline" style="--underline-padding: -2px;">Login</button>
-				<button id="sign-out" class="dynamic-underline" style="--underline-padding: -2px;" hidden>Sign Out</button>
-			</div>
-			<div id="auth-status" class="auth-status">Not signed in</div>
-		</header>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Now, Play Now</title>
+  <meta property="og:title" content="Work Now, Play Now">
+  <meta property="og:description" content="A planning app designed like a game, to help you meet your goals.">
+  <link rel="stylesheet" href="/styles/index.css">
+  <link rel="icon" href="/favicon.ico">
+</head>
+<body>
 
-		<!-- Auth Modal -->
-		<div id="auth-modal" class="auth-modal" style="display: none;">
-			<div class="auth-modal-content">
-				<span class="auth-modal-close">&times;</span>
-				<h2 id="auth-modal-title">Sign Up</h2>
-				<form id="auth-form" class="auth-form">
-					<input type="email" id="email" placeholder="Email" required>
-					<input type="password" id="password" placeholder="Password" required>
-					<button type="submit" class="cta-button" id="auth-submit">Sign Up</button>
-				</form>
-				<div class="auth-divider">
-					<span>or</span>
-				</div>
-				<button id="google-auth" class="google-button">Continue with Google</button>
-			</div>
-		</div>
-		<main>
-			<section class="hero">
-				<div class="hero-content">
-					<p class="tagline">A planning app designed like a game, to help you meet your goals.</p>
-					<button class="cta-button">Get Started</button>
-				</div>
-			</section>
-			<section class="features">
-				<h2>How It Works</h2>
-				<div class="features-grid">
-					<div class="feature-card">
-						<h3>Gamified Tasks</h3>
-						<p>Turn your to-do list into an engaging game experience</p>
-					</div>
-					<div class="feature-card">
-						<h3>Goal Tracking</h3>
-						<p>Set ambitious goals and watch yourself achieve them</p>
-					</div>
-					<div class="feature-card">
-						<h3>Work-Life Balance</h3>
-						<p>Balance productivity with fun and leisure</p>
-					</div>
-				</div>
-			</section>
-			<div class="about-row">
-				<div class="about-wrapper">
-					<img src="https://picsum.photos/seed/theteam/1200/700" alt="1st">
-					<span>The Team</span>
-				</div>
-				<div class="blurb">I'm baby man braid portland gastropub banjo wolf taiyaki distillery pickled tacos palo santo. Irony jean shorts palo santo vaporware beard messenger bag trust fund asymmetrical raw denim ugh VHS tilde. Shoreditch you probably haven't heard of them cliche, brunch roof party edison bulb raw denim bruh XOXO offal biodiesel chia. Tofu vice four dollar toast, tumeric meggings migas gluten-free bruh health goth marxism snackwave tattooed paleo. Umami +1 irony narwhal pour-over copper mug meggings vibecession polaroid.</div>
-			</div>
-			<div class="about-row">
-				<div class="about-wrapper">
-					<img src="https://picsum.photos/seed/themission/1200/700" alt="1st">
-					<span>The Mission</span>
-				</div>
-				<div class="blurb">Ennui marxism mixtape, photo booth narwhal butcher la croix put a bird on it typewriter man bun pour-over whatever cray. Ethical asymmetrical brunch cloud bread, big mood prism bruh vape poke tilde taiyaki semiotics DIY. Cold-pressed church-key austin vice, raw denim chambray chia everyday carry gatekeep heirloom tumeric vaporware sus godard yes plz. Whatever selfies scenester single-origin coffee taiyaki chartreuse tumblr iceland ethical affogato tote bag DIY letterpress four loko.</div>
-			</div>
-		</main>
-		<footer>
-			<div class="footer-links">
-				<div class="links">
-					<a>Privacy Policy</a>
-					<a>Terms of Service</a>
-				</div>
-				<div class="links">
-					<a>Boring Placeholder</a>
-					<a>More placeholder...</a>
-				</div>
-			</div>
-			<div>&copy; Copyright 2026 WorkNow-PlayNow Team</div>
-		</footer>
-		<script type="module" src="/js/auth.js"></script>
-	</body>
+  <header>
+    <img class="logo-img" src="/image/logo_512.png" alt="Work Now Play Now logo">
+    <div class="logo-text">
+      <span class="work">Work Now</span>, <span class="play">Play Now</span>
+    </div>
+    <div class="flex-spacer"></div>
+    <div class="banner-buttons">
+      <button id="sign-up">Sign Up</button>
+      <button id="login">Login</button>
+      <button id="sign-out" hidden>Sign Out</button>
+    </div>
+    <div id="auth-status" class="auth-status"></div>
+  </header>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="auth-modal" style="display:none;">
+    <div class="auth-modal-content">
+      <span class="auth-modal-close">&times;</span>
+      <h2 id="auth-modal-title">Sign Up</h2>
+      <form id="auth-form" class="auth-form">
+        <input type="email" id="email" placeholder="Email address" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button type="submit" class="cta-button" id="auth-submit" style="width:100%; justify-content:center;">Sign Up</button>
+      </form>
+      <div class="auth-divider"><span>or</span></div>
+      <button id="google-auth" class="google-button">
+        <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615z"/><path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18z"/><path fill="#FBBC05" d="M3.964 10.707A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.707V4.961H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.039l3.007-2.332z"/><path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.961L3.964 7.293C4.672 5.163 6.656 3.58 9 3.58z"/></svg>
+        Continue with Google
+      </button>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-content">
+        <span class="tag eyebrow">Gamified Productivity</span>
+        <h1>
+          Do the work.<br>
+          <span class="accent-orange">Earn the play.</span>
+        </h1>
+        <p class="tagline">
+          Turn your goals into quests, your tasks into victories, and your consistency into rewards.
+        </p>
+        <div class="hero-actions">
+          <button class="cta-button" id="hero-signup">Get Started — It's Free</button>
+          <button class="btn btn-secondary" id="hero-login">Sign In</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+      <h2>How It Works</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="icon">🎯</div>
+          <h3>Set Goals</h3>
+          <p>Break big ambitions into structured goals with clear milestones and deadlines.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">✅</div>
+          <h3>Complete Tasks</h3>
+          <p>Knock out daily tasks, earn points, and watch your progress compound over time.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🔥</div>
+          <h3>Build Streaks</h3>
+          <p>Log in every day to keep your streak alive and unlock milestone bonuses.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">🏆</div>
+          <h3>Earn Rewards</h3>
+          <p>Finishing priority tasks unlocks rewards — because balance is the real win.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📊</div>
+          <h3>Track Progress</h3>
+          <p>Weekly and monthly summaries show you exactly how far you've come.</p>
+        </div>
+        <div class="feature-card">
+          <div class="icon">📅</div>
+          <h3>Calendar Sync</h3>
+          <p>Integrate with Google or Apple Calendar to keep tasks and life in one place.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section">
+      <div class="about-row">
+        <div class="about-wrapper">
+          <img src="https://picsum.photos/seed/theteam/1200/700" alt="The Team">
+          <span>The Team</span>
+        </div>
+        <div class="blurb">
+          <h2 style="margin-bottom: 16px;">Built by students,<br>for everyone.</h2>
+          Work Now, Play Now was born out of a simple frustration — productivity apps are boring. 
+          We're a team of software engineering students who believe that getting things done should 
+          feel rewarding, not draining. So we built the app we always wanted.
+        </div>
+      </div>
+      <div class="about-row reverse">
+        <div class="about-wrapper">
+          <img src="https://picsum.photos/seed/themission/1200/700" alt="The Mission">
+          <span>The Mission</span>
+        </div>
+        <div class="blurb">
+          <h2 style="margin-bottom: 16px;">Work hard.<br><span style="color: var(--orange);">Play harder.</span></h2>
+          Our mission is simple: help people build habits that stick by making the process 
+          genuinely enjoyable. Points, streaks, rewards — every feature is designed to keep 
+          you motivated and moving forward, one task at a time.
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="footer-links">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms of Service</a>
+      <a href="#">Contact</a>
+    </div>
+    <div>&copy; 2026 Work Now, Play Now. All rights reserved.</div>
+  </footer>
+
+  <script type="module" src="/js/auth.js"></script>
+  <script type="module">
+    // Wire hero buttons to auth modal
+    document.getElementById('hero-signup')?.addEventListener('click', () => {
+      document.getElementById('sign-up')?.click();
+    });
+    document.getElementById('hero-login')?.addEventListener('click', () => {
+      document.getElementById('login')?.click();
+    });
+  </script>
+
+</body>
 </html>

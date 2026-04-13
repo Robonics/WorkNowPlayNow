@@ -13,19 +13,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 app.set('views', 'views');
 
-app.use('/auth',    require('./routes/auth'));
-app.use('/tasks',   require('./routes/tasks'));
-app.use('/goals',   require('./routes/goals'));
-app.use('/points',  require('./routes/points'));
-app.use('/streaks', require('./routes/streaks'));
+app.use('/auth',       require('./routes/auth'));
+app.use('/tasks',      require('./routes/tasks'));
+app.use('/goals',      require('./routes/goals'));
+app.use('/points',     require('./routes/points'));
+app.use('/streaks',    require('./routes/streaks'));
+app.use('/categories', require('./routes/categories'));
 
 app.get("/", (req, res) => {
   res.redirect("/index.html");
 });
 
-// Global error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  console.error('Global error:', JSON.stringify(err, null, 2));
+  console.error('Stack:', err.stack);
   res.status(500).json({ error: 'Something went wrong' });
 });
 

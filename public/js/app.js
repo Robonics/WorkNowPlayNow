@@ -211,6 +211,9 @@ async function loadGoals() {
 
 async function loadStats() {
   try {
+    const session = await getSession();
+    if (!session?.access_token) return;
+
     const streak = await apiFetch('/streaks/login', { method: 'POST' });
     if (streak) {
       document.getElementById('sidebar-streak').textContent = streak.current_streak;

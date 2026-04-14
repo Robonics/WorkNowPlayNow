@@ -37,6 +37,9 @@
       <button class="sidebar-item" data-view="goals">
         <span class="icon"><i data-lucide="target"></i></span> Goals
       </button>
+      <button class="sidebar-item" data-view="achievements">
+        <span class="icon"><i data-lucide="trophy"></i></span> Achievements
+      </button>
 
       <div class="sidebar-section">Stats</div>
       <div class="stat-card">
@@ -54,6 +57,11 @@
         <div class="stat-value" id="sidebar-tasks-done">—</div>
         <div class="stat-sub">completed total</div>
       </div>
+      <div class="stat-card">
+        <div class="stat-label"><i data-lucide="trophy"></i> Achievements</div>
+        <div class="stat-value" id="sidebar-achievements">—</div>
+        <div class="stat-sub">unlocked</div>
+      </div>
     </aside>
 
     <!-- Main Content -->
@@ -66,7 +74,6 @@
           <button class="btn btn-primary" id="toggle-task-form">+ New Task</button>
         </div>
 
-        <!-- Add Task Form (hidden by default) -->
         <div id="task-form-wrapper" style="display:none;">
           <form id="task-form" class="task-form">
             <div>
@@ -100,7 +107,6 @@
           </form>
         </div>
 
-        <!-- Filter bar -->
         <div style="display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap;">
           <button class="btn btn-secondary filter-btn active" data-filter="all">All</button>
           <button class="btn btn-secondary filter-btn" data-filter="pending">Pending</button>
@@ -111,27 +117,37 @@
         <div id="tasks-container" class="tasks-grid"></div>
       </div>
 
-      <!-- Goals View (hidden by default) -->
+      <!-- Goals View -->
       <div id="view-goals" style="display:none;">
         <div class="app-main-header">
           <h2>My Goals</h2>
           <button class="btn btn-primary" id="toggle-goal-form">+ New Goal</button>
         </div>
 
-        <!-- Add Goal Form (hidden by default) -->
         <div id="goal-form-wrapper" style="display:none;">
-          <form id="goal-form" class="task-form">
-            <div class="full-width">
+          <form id="goal-form" class="task-form" style="grid-template-columns:1fr;">
+            <div>
               <div class="task-form-title">Goal Title *</div>
               <input type="text" id="goal-title" placeholder="What do you want to achieve?" required>
             </div>
-            <div class="full-width">
+            <div>
               <div class="task-form-title">Description (optional)</div>
               <textarea id="goal-description" placeholder="Describe your goal..."></textarea>
             </div>
-            <div class="full-width" style="display:flex; gap:10px; justify-content:flex-end;">
+            <div>
+              <div class="task-form-title" style="display:flex;align-items:center;justify-content:space-between;">
+                <span>Assign Tasks * <span style="font-weight:400;color:rgba(255,255,255,0.2);">(minimum 3)</span></span>
+                <span id="goal-task-count" style="color:rgba(255,255,255,0.3);font-size:12px;">0 selected</span>
+              </div>
+              <div id="goal-task-picker" style="margin-top:8px;max-height:240px;overflow-y:auto;padding-right:4px;">
+                <p style="color:rgba(255,255,255,0.3);font-size:13px;padding:8px 0;">Loading tasks...</p>
+              </div>
+            </div>
+            <div style="display:flex; gap:10px; justify-content:flex-end;">
               <button type="button" class="btn btn-ghost" id="cancel-goal-form">Cancel</button>
-              <button type="submit" class="btn btn-primary">Add Goal</button>
+              <button type="submit" class="btn btn-primary" id="goal-submit-btn" disabled title="Select at least 3 tasks">
+                Create Goal
+              </button>
             </div>
           </form>
         </div>
@@ -139,10 +155,17 @@
         <div id="goals-container" class="tasks-grid"></div>
       </div>
 
+      <!-- Achievements View -->
+      <div id="view-achievements" style="display:none;">
+        <div class="app-main-header">
+          <h2>Achievements</h2>
+        </div>
+        <div id="achievements-container" class="tasks-grid"></div>
+      </div>
+
     </main>
   </div>
 
-  <!-- Toast container -->
   <div class="toast-container" id="toast-container"></div>
 
   <footer>

@@ -3,6 +3,7 @@ const router = express.Router();
 const { getAuthClient } = require('../lib/supabase');
 const { Task } = require('../models/task');
 const { awardPoints } = require('../lib/points');
+const { checkAchievements } = require('../lib/achievements');
 const requireAuth = require('../middlewares/auth');
 
 router.use(requireAuth);
@@ -66,6 +67,7 @@ router.put('/:id', async (req, res, next) => {
   if (due_date !== undefined)      updates.due_date = due_date;
   if (reminder_time !== undefined) updates.reminder_time = reminder_time;
   if (Object.keys(updates).length === 0) return res.status(400).json({ error: 'No valid fields provided to update' });
+
   const { data, error } = await db
     .from('tasks')
     .update(updates)
@@ -75,12 +77,32 @@ router.put('/:id', async (req, res, next) => {
     .single();
   if (error) return next(error);
   if (!data) return res.status(404).json({ error: 'Task not found' });
+
   let pointsAwarded = null;
+  let newAchievements = [];
+
   if (status === 'completed') {
-    try { pointsAwarded = await awardPoints(req.user.id, 'task', data.id, req.token); }
-    catch (err) { console.error('Points award failed:', err.message); }
+    try {
+      pointsAwarded = await awardPoints(req.user.id, 'task', data.id, req.token);
+    } catch (err) {
+      console.error('Points award failed:', err.message);
+    }
+
+    // Check task-based and points-based achievements
+    try {
+      const taskAchievements = await checkAchievements(
+        req.user.id, req.token, 'task_complete', { task: data }
+      );
+      const pointsAchievements = await checkAchievements(
+        req.user.id, req.token, 'points_updated', {}
+      );
+      newAchievements = [...taskAchievements, ...pointsAchievements];
+    } catch (err) {
+      console.error('Achievement check failed:', err.message);
+    }
   }
-  res.json({ ...Task.fromDB(data).toJSON(), pointsAwarded });
+
+  res.json({ ...Task.fromDB(data).toJSON(), pointsAwarded, newAchievements });
 });
 
 router.delete('/:id', async (req, res, next) => {

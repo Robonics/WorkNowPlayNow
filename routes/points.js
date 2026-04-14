@@ -9,8 +9,8 @@ router.use(requireAuth);
 router.get('/', async (req, res, next) => {
   try {
     const [total, history] = await Promise.all([
-      getTotalPoints(req.user.id),
-      getPointsHistory(req.user.id),
+      getTotalPoints(req.user.id, req.token),
+      getPointsHistory(req.user.id, req.token),
     ]);
     res.json({ total, history });
   } catch (err) {

@@ -13,13 +13,12 @@
   --orange-glow:   rgba(255, 107, 53, 0.12);
   --blue:          #2d2b55;
   --blue-bright:   #4f8ef7;
-  --blue-dim:      #1e1c3a;
   --blue-glow:     rgba(45, 43, 85, 0.12);
   --bg:            #faf8f4;
   --bg-card:       #ffffff;
   --bg-card-hover: #f5f2ec;
-  --bg-dark:       #1a1a24;
-  --bg-dark-card:  #22222e;
+  --bg-dark:       #1e1c3a;
+  --bg-dark-card:  #2d2b55;
   --bg-input:      #f0ece4;
   --border:        rgba(0,0,0,0.08);
   --border-bright: rgba(0,0,0,0.15);
@@ -611,7 +610,7 @@ footer {
   padding: 2px 8px;
   border-radius: 99px;
   background: var(--blue-glow);
-  color: var(--blue);
+  color: var(--blue-bright);
   border: 1px solid rgba(79,142,247,0.25);
   font-weight: 600;
 }
@@ -623,7 +622,7 @@ footer {
 }
 .task-status.pending    { background: rgba(255,200,0,0.1); color: #ffc800; border: 1px solid rgba(255,200,0,0.2); }
 .task-status.completed  { background: rgba(0,200,100,0.1); color: #00c864; border: 1px solid rgba(0,200,100,0.2); }
-.task-status.in_progress { background: var(--blue-glow); color: var(--blue); border: 1px solid rgba(79,142,247,0.25); }
+.task-status.in_progress { background: var(--blue-glow); color: var(--blue-bright); border: 1px solid rgba(79,142,247,0.25); }
 
 .task-description {
   font-size: 13px;
@@ -661,7 +660,7 @@ footer {
 .goal-card:hover { border-color: rgba(255,255,255,0.12); }
 .goal-progress-bar {
   height: 6px;
-  background: var(--bg);
+  background: var(--bg-dark);
   border-radius: 99px;
   overflow: hidden;
   margin-top: 10px;
@@ -721,7 +720,7 @@ footer {
 }
 .toast.success { border-left: 3px solid #00c864; }
 .toast.error   { border-left: 3px solid #e05555; }
-.toast.info    { border-left: 3px solid var(--blue); }
+.toast.info    { border-left: 3px solid var(--blue-bright); }
 @keyframes toastIn {
   from { opacity: 0; transform: translateX(20px); }
   to   { opacity: 1; transform: translateX(0); }

@@ -261,7 +261,7 @@ function renderTasks() {
           style="padding:8px 12px;font-size:13px;${onCalendar ? 'color:var(--orange);border-color:rgba(255,107,53,0.3);' : ''}"
           data-action="calendar" data-id="${task.id}"
           ${onCalendar ? 'disabled title="Already on your calendar"' : 'title="Add to Google Calendar"'}>
-          ${icon('calendar', 13)} ${onCalendar ? 'Added' : 'Schedule'}
+          ${icon('calendar', 13)} ${onCalendar ? 'Added' : 'Add To Calendar'}
         </button>
         <button class="btn btn-danger" style="padding:8px 12px;font-size:13px;" data-action="delete" data-id="${task.id}">
           ${icon('x', 13)}

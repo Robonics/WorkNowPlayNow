@@ -12,7 +12,7 @@
 <body>
 
   <header>
-    <a href="/home" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+    <a href="/home" style="display:flex;align-items:center;gap:12px;text-decoration:none;flex-shrink:0;">
       <img class="logo-img" src="/image/logo_512.png" alt="logo">
       <div class="logo-text">
         <span class="work">Work Now</span>, <span class="play">Play Now</span>
@@ -27,12 +27,21 @@
       <button id="sign-out">Sign Out</button>
     </div>
     <div id="auth-status" class="auth-status"></div>
+    <!-- Hamburger (mobile only) -->
+    <button class="hamburger" id="hamburger" aria-label="Open menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
   </header>
+
+  <!-- Sidebar overlay (mobile tap-outside to close) -->
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <div class="app-layout">
 
     <!-- Sidebar -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="sidebar">
       <div class="sidebar-section">Navigation</div>
       <button class="sidebar-item active" data-view="tasks">
         <span class="icon"><i data-lucide="check-square"></i></span> Tasks
@@ -175,14 +184,43 @@
     <div class="footer-links">
       <a href="/privacy">Privacy Policy</a>
       <a href="/terms">Terms of Service</a>
-      <a href="/contact">Contact</a>
     </div>
     <div>&copy; 2026 Work Now, Play Now. All rights reserved.</div>
   </footer>
 
   <script type="module" src="/js/auth.js"></script>
   <script type="module" src="/js/app.js"></script>
-  <script>lucide.createIcons();</script>
+  <script>
+    lucide.createIcons();
+
+    // ── Hamburger / sidebar toggle ────────────────────────────────────────────
+    const hamburger = document.getElementById('hamburger');
+    const sidebar   = document.getElementById('sidebar');
+    const overlay   = document.getElementById('sidebar-overlay');
+
+    function openSidebar() {
+      sidebar.classList.add('open');
+      overlay.classList.add('open');
+    }
+
+    function closeSidebar() {
+      sidebar.classList.remove('open');
+      overlay.classList.remove('open');
+    }
+
+    hamburger.addEventListener('click', () => {
+      sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
+    });
+
+    overlay.addEventListener('click', closeSidebar);
+
+    // Close sidebar when a nav item is tapped on mobile
+    document.querySelectorAll('.sidebar-item[data-view]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (window.innerWidth <= 768) closeSidebar();
+      });
+    });
+  </script>
 
 </body>
 </html>

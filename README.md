@@ -16,9 +16,10 @@ Work Now, Play Now is a JavaScript-based task tracker designed to increase produ
 ## Getting Started
 > Work Now, Play Now is a web application that can run on any web browser. 
 ### From Release
-1. **Copy the provided link:**
+-Access the full web application at https://worknowplaynow.com/
 
-     - https://worknowplaynow.com/
-2. **Paste in Web Browser:**
-   
-    - Paste in web browser and press enter.
+### Building From Source Code
+1. **Clone the repository:**
+     git clone https://github.com/Robonics/WorkNowPlayNow/tree/master
+cd worknowplaynow
+

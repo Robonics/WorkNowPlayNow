@@ -27,7 +27,6 @@
       <button id="sign-out">Sign Out</button>
     </div>
     <div id="auth-status" class="auth-status"></div>
-    <!-- Hamburger (mobile only) -->
     <button class="hamburger" id="hamburger" aria-label="Open menu">
       <span></span>
       <span></span>
@@ -35,7 +34,6 @@
     </button>
   </header>
 
-  <!-- Sidebar overlay (mobile tap-outside to close) -->
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
 
   <div class="app-layout">
@@ -51,6 +49,9 @@
       </button>
       <button class="sidebar-item" data-view="achievements">
         <span class="icon"><i data-lucide="trophy"></i></span> Achievements
+      </button>
+      <button class="sidebar-item" data-view="reports">
+        <span class="icon"><i data-lucide="clipboard"></i></span> Reports
       </button>
 
       <div class="sidebar-section">Stats</div>
@@ -175,6 +176,14 @@
         <div id="achievements-container" class="tasks-grid"></div>
       </div>
 
+      <!-- Reports View -->
+      <div id="view-reports" style="display:none;">
+        <div class="app-main-header">
+          <h2>Reports</h2>
+        </div>
+        <div id="reports-container"></div>
+      </div>
+
     </main>
   </div>
 
@@ -193,32 +202,19 @@
   <script>
     lucide.createIcons();
 
-    // ── Hamburger / sidebar toggle ────────────────────────────────────────────
     const hamburger = document.getElementById('hamburger');
     const sidebar   = document.getElementById('sidebar');
     const overlay   = document.getElementById('sidebar-overlay');
 
-    function openSidebar() {
-      sidebar.classList.add('open');
-      overlay.classList.add('open');
-    }
-
-    function closeSidebar() {
-      sidebar.classList.remove('open');
-      overlay.classList.remove('open');
-    }
+    function openSidebar()  { sidebar.classList.add('open'); overlay.classList.add('open'); }
+    function closeSidebar() { sidebar.classList.remove('open'); overlay.classList.remove('open'); }
 
     hamburger.addEventListener('click', () => {
       sidebar.classList.contains('open') ? closeSidebar() : openSidebar();
     });
-
     overlay.addEventListener('click', closeSidebar);
-
-    // Close sidebar when a nav item is tapped on mobile
     document.querySelectorAll('.sidebar-item[data-view]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        if (window.innerWidth <= 768) closeSidebar();
-      });
+      btn.addEventListener('click', () => { if (window.innerWidth <= 768) closeSidebar(); });
     });
   </script>
 

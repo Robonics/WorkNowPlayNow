@@ -44,7 +44,7 @@ Work Now, Play Now is a JavaScript-based task tracker designed to increase produ
    
 7. **(Optional) Google OAuth and Calender Set up:**
    
-   To use the Google SIgn-In and Calender integration locally you need to
+   To use the Google Sign-In and Calender integration locally you need to
    - Go to [Google Cloud Console] (https://console.cloud.google.com)
    - Add “https://localhost:8080” to **Authorized JavaScript Origins** on yout OAuth credentials
    - Add “https://localhost:8080” as a test user if the app is still in testing mode.

@@ -3,6 +3,7 @@ const router = express.Router();
 const { getAuthClient } = require('../lib/supabase');
 const { Task } = require('../models/task');
 const { awardPoints } = require('../lib/points');
+const { checkAchievements } = require('../lib/achievements');
 const requireAuth = require('../middlewares/auth');
 
 router.use(requireAuth);
@@ -56,16 +57,18 @@ router.post('/', async (req, res, next) => {
 
 router.put('/:id', async (req, res, next) => {
   const db = getAuthClient(req.token);
-  const { title, description, status, category_id, goal_id, due_date, reminder_time } = req.body;
+  const { title, description, status, category_id, goal_id, due_date, reminder_time, calendar_event_id } = req.body;
   const updates = {};
-  if (title !== undefined)         updates.title = title;
-  if (description !== undefined)   updates.description = description;
-  if (status !== undefined)        updates.status = status;
-  if (category_id !== undefined)   updates.category_id = category_id;
-  if (goal_id !== undefined)       updates.goal_id = goal_id;
-  if (due_date !== undefined)      updates.due_date = due_date;
-  if (reminder_time !== undefined) updates.reminder_time = reminder_time;
+  if (title !== undefined)             updates.title             = title;
+  if (description !== undefined)       updates.description       = description;
+  if (status !== undefined)            updates.status            = status;
+  if (category_id !== undefined)       updates.category_id       = category_id;
+  if (goal_id !== undefined)           updates.goal_id           = goal_id;
+  if (due_date !== undefined)          updates.due_date          = due_date;
+  if (reminder_time !== undefined)     updates.reminder_time     = reminder_time;
+  if (calendar_event_id !== undefined) updates.calendar_event_id = calendar_event_id;
   if (Object.keys(updates).length === 0) return res.status(400).json({ error: 'No valid fields provided to update' });
+
   const { data, error } = await db
     .from('tasks')
     .update(updates)
@@ -75,12 +78,26 @@ router.put('/:id', async (req, res, next) => {
     .single();
   if (error) return next(error);
   if (!data) return res.status(404).json({ error: 'Task not found' });
-  let pointsAwarded = null;
+
+  let pointsAwarded  = null;
+  let newAchievements = [];
+
   if (status === 'completed') {
-    try { pointsAwarded = await awardPoints(req.user.id, 'task', data.id, req.token); }
-    catch (err) { console.error('Points award failed:', err.message); }
+    try {
+      pointsAwarded = await awardPoints(req.user.id, 'task', data.id, req.token);
+    } catch (err) {
+      console.error('Points award failed:', err.message);
+    }
+    try {
+      const taskAchievements   = await checkAchievements(req.user.id, req.token, 'task_complete', { task: data });
+      const pointsAchievements = await checkAchievements(req.user.id, req.token, 'points_updated', {});
+      newAchievements = [...taskAchievements, ...pointsAchievements];
+    } catch (err) {
+      console.error('Achievement check failed:', err.message);
+    }
   }
-  res.json({ ...Task.fromDB(data).toJSON(), pointsAwarded });
+
+  res.json({ ...Task.fromDB(data).toJSON(), pointsAwarded, newAchievements });
 });
 
 router.delete('/:id', async (req, res, next) => {

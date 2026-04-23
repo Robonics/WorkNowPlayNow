@@ -13,10 +13,12 @@
 <body>
 
   <header>
-    <img class="logo-img" src="/image/logo_512.png" alt="Work Now Play Now logo">
-    <div class="logo-text">
-      <span class="work">Work Now</span>, <span class="play">Play Now</span>
-    </div>
+    <a href="/home" style="display:flex;align-items:center;gap:12px;text-decoration:none;">
+      <img class="logo-img" src="/image/logo_512.png" alt="Work Now Play Now logo">
+      <div class="logo-text">
+        <span class="work">Work Now</span>, <span class="play">Play Now</span>
+      </div>
+    </a>
     <div class="flex-spacer"></div>
     <div class="banner-buttons">
       <button id="sign-up">Sign Up</button>
@@ -47,10 +49,10 @@
     <section class="hero">
       <div class="hero-content">
         <span class="tag eyebrow">Gamified Productivity</span>
-        <h1>Do the work.<br><span class="accent-orange">Earn the play.</span></h1>
+        <h1><span style="color:var(--blue);">Do the work.</span><br><span class="accent-orange">Earn the play.</span></h1>
         <p class="tagline">Turn your goals into quests, your tasks into victories, and your consistency into rewards.</p>
         <div class="hero-actions">
-          <button class="cta-button" id="hero-signup">Get Started — It is Free</button>
+          <button class="cta-button" id="hero-signup">Let's Go — Launch App</button>
           <button class="btn btn-secondary" id="hero-login">Sign In</button>
         </div>
       </div>
@@ -62,7 +64,7 @@
         <div class="feature-card">
           <div class="icon"><i data-lucide="target"></i></div>
           <h3>Set Goals</h3>
-          <p>Break big ambitions into structured goals with clear milestones and deadlines.</p>
+          <p>Break big ambitions into structured tasks and goals with clear milestones and deadlines.</p>
         </div>
         <div class="feature-card">
           <div class="icon"><i data-lucide="check-circle"></i></div>
@@ -72,7 +74,7 @@
         <div class="feature-card">
           <div class="icon"><i data-lucide="flame"></i></div>
           <h3>Build Streaks</h3>
-          <p>Log in every day to keep your streak alive and unlock milestone bonuses.</p>
+          <p>Log in every day to keep your streak alive and unlock achievements.</p>
         </div>
         <div class="feature-card">
           <div class="icon"><i data-lucide="trophy"></i></div>
@@ -87,7 +89,7 @@
         <div class="feature-card">
           <div class="icon"><i data-lucide="calendar"></i></div>
           <h3>Calendar Sync</h3>
-          <p>Integrate with Google or Apple Calendar to keep tasks and life in one place.</p>
+          <p>Integrate with Google Calendar to keep tasks and life in one place.</p>
         </div>
       </div>
     </section>
@@ -95,26 +97,24 @@
     <section class="about-section">
       <div class="about-row">
         <div class="about-wrapper">
-          <img src="https://picsum.photos/seed/theteam/1200/700" alt="The Team">
-          <span>The Team</span>
+          <img src="/image/team.jpg" alt="The Team">
         </div>
         <div class="blurb">
           <h2 style="margin-bottom:16px;">Built by students,<br>for everyone.</h2>
-          Work Now, Play Now was born out of a simple frustration — productivity apps are boring.
+          Work Now, Play Now was born out of a simple annoyance... productivity apps are boring.
           We are a team of software engineering students who believe that getting things done should
           feel rewarding, not draining. So we built the app we always wanted.
         </div>
       </div>
       <div class="about-row reverse">
         <div class="about-wrapper">
-          <img src="https://picsum.photos/seed/themission/1200/700" alt="The Mission">
-          <span>The Mission</span>
+          <img src="/image/mission.jpg" alt="The Mission">
         </div>
         <div class="blurb">
           <h2 style="margin-bottom:16px;">Work hard.<br><span style="color:var(--orange);">Play harder.</span></h2>
           Our mission is simple: help people build habits that stick by making the process
-          genuinely enjoyable. Points, streaks, rewards — every feature is designed to keep
-          you motivated and moving forward, one task at a time.
+          genuinely enjoyable. Tasks, goals, achievements — every feature is designed to keep
+          you motivated and moving forward, one step at a time.
         </div>
       </div>
     </section>
@@ -122,9 +122,9 @@
 
   <footer>
     <div class="footer-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Contact</a>
+      <a href="/privacy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="/contact">Contact</a>
     </div>
     <div>&copy; 2026 Work Now, Play Now. All rights reserved.</div>
   </footer>
@@ -132,7 +132,7 @@
   <script type="module" src="/js/auth.js"></script>
   <script type="module">
     document.getElementById("hero-signup")?.addEventListener("click", () => {
-      document.getElementById("sign-up")?.click();
+      window.location.href = '/app';
     });
     document.getElementById("hero-login")?.addEventListener("click", () => {
       document.getElementById("login")?.click();

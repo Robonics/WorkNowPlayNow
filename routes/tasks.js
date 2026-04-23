@@ -11,7 +11,7 @@ router.get('/', async (req, res, next) => {
   const db = getAuthClient(req.token);
   const { data, error } = await db
     .from('tasks')
-    .select('id, created_at, title, description, status, category_id, goal_id, due_date, reminder_time, reminder_sent, user_id')
+    .select('id, created_at, title, description, status, category_id, goal_id, due_date, reminder_time, reminder_sent, user_id, subtasks (id, title, completed, created_at)')
     .eq('user_id', req.user.id)
     .order('created_at', { ascending: false });
   if (error) return next(error);
@@ -22,7 +22,7 @@ router.get('/:id', async (req, res, next) => {
   const db = getAuthClient(req.token);
   const { data, error } = await db
     .from('tasks')
-    .select('id, created_at, title, description, status, category_id, goal_id, due_date, reminder_time, reminder_sent, user_id')
+    .select('id, created_at, title, description, status, category_id, goal_id, due_date, reminder_time, reminder_sent, user_id, subtasks (id, title, completed, created_at)')
     .eq('id', req.params.id)
     .eq('user_id', req.user.id)
     .single();

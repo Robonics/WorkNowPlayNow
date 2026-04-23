@@ -12,3 +12,5 @@ Work Now, Play Now is a JavaScript-based task tracker designed to increase produ
 - **Reward System**: Finish tasks to receive rewards to encourage productivity 
 
 - **Calendar Sync**: Easily sync the app to your Google Calendar to have tasks and events all in one place
+
+## Getting Started

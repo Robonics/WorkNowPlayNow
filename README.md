@@ -1,6 +1,6 @@
 # Work Now, Play Now
 
-Work Now, Play Now is a JavaScript-based task tracker designed to increase productivity through motivation and rewards. Built with real-world situations in mind, it helps users stay focused by pairing task completion with incentives. 
+Work Now, Play Now is a JavaScript-based task tracker designed to increase productivity through motivation and rewards. Built with real-world situations in mind, it helps users stay focused by pairing task completion with rewards. 
 
 ## Features
 - **Add a Task**: Create new tasks with just a few clicks
@@ -14,3 +14,5 @@ Work Now, Play Now is a JavaScript-based task tracker designed to increase produ
 - **Calendar Sync**: Easily sync the app to your Google Calendar to have tasks and events all in one place
 
 ## Getting Started
+> Work Now, Play Now is a web application that can run on any web browser. 
+###

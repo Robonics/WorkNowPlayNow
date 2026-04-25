@@ -38,6 +38,7 @@ SUPABASE_ANON_KEY=your_supabase_anon_key_here
 4. **Set up the Database:**
    
 In your Supabase project, run the SQL from `database/schema.sql` in the Supabase SQL editor to create all schema.
+
 ---
 5. **Run the App:**
     

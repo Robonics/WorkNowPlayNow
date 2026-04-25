@@ -20,7 +20,7 @@ Make sure you have the following installed:
 1. **Clone the repository:**
    
 ```bash
-git clone https://github.com/YOUR_USERNAME/worknowplaynow.git
+git clone https://github.com/Robonics/WorkNowPlayNow
 cd worknowplaynow
 ```
 ---  

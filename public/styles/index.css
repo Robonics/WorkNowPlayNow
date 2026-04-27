@@ -215,6 +215,73 @@ header {
   max-width: 160px;
 }
 
+/* ── Notification Bell ── */
+#notif-bell {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  position: relative;
+}
+#notif-bell:hover {
+  color: var(--text);
+  background: var(--bg-card-hover);
+}
+
+#notif-count {
+  display: none;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--orange);
+  color: #fff;
+  border-radius: 99px;
+  padding: 1px 5px;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+/* Notification dropdown — fixed so it escapes the header */
+#notif-dropdown {
+  display: none;
+  position: fixed;
+  top: 64px;
+  right: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius);
+  width: 320px;
+  max-height: 360px;
+  overflow-y: auto;
+  z-index: 500;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+}
+#notif-dropdown.open { display: block; }
+
+.notif-item {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.5;
+}
+.notif-item:last-child { border-bottom: none; }
+.notif-item.unread { background: var(--orange-glow); }
+.notif-empty {
+  padding: 24px 16px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-faint);
+}
+
 /* ── Hamburger button (mobile only) ── */
 .hamburger {
   display: none;
@@ -372,10 +439,7 @@ footer {
   position: relative;
   max-width: 720px;
 }
-.hero-content .eyebrow {
-  display: inline-block;
-  margin-bottom: 20px;
-}
+.hero-content .eyebrow { display: inline-block; margin-bottom: 20px; }
 .hero-content h1 { margin-bottom: 20px; }
 .hero-content h1 .accent-blue  { color: var(--blue); }
 .hero-content h1 .accent-orange { color: var(--orange); }
@@ -805,36 +869,13 @@ footer {
 
 /* ── Responsive ── */
 @media (max-width: 768px) {
-
-  /* Header */
-  header {
-    padding: 0 16px;
-    gap: 8px;
-  }
-
-  .logo-text {
-    font-size: 16px;
-  }
-
-  /* Hide badges and email in app header on mobile — shown in sidebar instead */
+  header { padding: 0 16px; gap: 8px; }
+  .logo-text { font-size: 16px; }
   #header-badges { display: none !important; }
   .auth-status   { display: none; }
-
-  /* Show hamburger */
   .hamburger { display: flex; }
-
-  /* Landing page header — hide logo text on very small screens */
-  .banner-buttons button {
-    padding: 6px 10px;
-    font-size: 13px;
-  }
-
-  /* App layout — full width, no sidebar column */
-  .app-layout {
-    grid-template-columns: 1fr;
-  }
-
-  /* Sidebar becomes a fixed overlay panel */
+  .banner-buttons button { padding: 6px 10px; font-size: 13px; }
+  .app-layout { grid-template-columns: 1fr; }
   .sidebar {
     position: fixed;
     top: 64px;
@@ -845,50 +886,17 @@ footer {
     transition: left 250ms ease;
     overflow-y: auto;
   }
-  .sidebar.open {
-    left: 0;
-  }
-
-  /* Main content takes full width */
-  .app-main {
-    padding: 20px 16px;
-    width: 100%;
-  }
-
-  /* Task form single column */
-  .task-form {
-    grid-template-columns: 1fr;
-    padding: 16px;
-  }
-
-  /* Tasks grid single column */
-  .tasks-grid {
-    grid-template-columns: 1fr;
-  }
-
-  /* About section stacks */
-  .about-row,
-  .about-row.reverse {
-    flex-direction: column;
-  }
-
-  /* Hero actions stack */
-  .hero-actions {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* Toast narrower on mobile */
+  .sidebar.open { left: 0; }
+  .app-main { padding: 20px 16px; width: 100%; }
+  .task-form { grid-template-columns: 1fr; padding: 16px; }
+  .tasks-grid { grid-template-columns: 1fr; }
+  .about-row, .about-row.reverse { flex-direction: column; }
+  .hero-actions { flex-direction: column; align-items: center; }
   .toast { max-width: calc(100vw - 48px); }
   .toast-container { left: 24px; right: 24px; }
-
-  .banner-buttons {
-    display: none !important;
-  }
-
-  body {
-    overflow-x: hidden;
-  }
+  .banner-buttons { display: none !important; }
+  body { overflow-x: hidden; }
+  #notif-dropdown { right: 8px; width: calc(100vw - 16px); }
 }
 
 @media (max-width: 480px) {

@@ -8,75 +8,6 @@
   <link rel="icon" href="/favicon.ico">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-  <style>
-    /* Notification bell button */
-    #notif-bell {
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 6px;
-      border-radius: var(--radius-sm);
-      color: var(--text-muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-      position: relative;
-    }
-    #notif-bell:hover {
-      color: var(--text);
-      background: var(--bg-card-hover);
-    }
-
-    /* Badge */
-    #notif-count {
-      display: none;
-      position: absolute;
-      top: -4px;
-      right: -4px;
-      background: var(--orange);
-      color: #fff;
-      border-radius: 99px;
-      padding: 1px 5px;
-      font-size: 10px;
-      font-weight: 700;
-      line-height: 1.4;
-      pointer-events: none;
-    }
-
-    /* Dropdown — fixed position so it escapes the header */
-    #notif-dropdown {
-      display: none;
-      position: fixed;
-      top: 64px;
-      right: 16px;
-      background: var(--bg-card);
-      border: 1px solid var(--border-bright);
-      border-radius: var(--radius);
-      width: 320px;
-      max-height: 360px;
-      overflow-y: auto;
-      z-index: 500;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
-    }
-    #notif-dropdown.open { display: block; }
-
-    .notif-item {
-      padding: 14px 16px;
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--text);
-      line-height: 1.5;
-    }
-    .notif-item:last-child { border-bottom: none; }
-    .notif-item.unread { background: var(--orange-glow); }
-    .notif-empty {
-      padding: 24px 16px;
-      text-align: center;
-      font-size: 13px;
-      color: var(--text-faint);
-    }
-  </style>
 </head>
 <body>
 
@@ -308,7 +239,6 @@
       notifDropdown.classList.toggle('open');
     });
 
-    // Close dropdown when clicking anywhere else
     document.addEventListener('click', (e) => {
       if (!notifDropdown.contains(e.target) && e.target !== notifBell) {
         notifDropdown.classList.remove('open');

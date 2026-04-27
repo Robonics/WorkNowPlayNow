@@ -8,6 +8,75 @@
   <link rel="icon" href="/favicon.ico">
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <style>
+    /* Notification bell button */
+    #notif-bell {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: var(--radius-sm);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      position: relative;
+    }
+    #notif-bell:hover {
+      color: var(--text);
+      background: var(--bg-card-hover);
+    }
+
+    /* Badge */
+    #notif-count {
+      display: none;
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--orange);
+      color: #fff;
+      border-radius: 99px;
+      padding: 1px 5px;
+      font-size: 10px;
+      font-weight: 700;
+      line-height: 1.4;
+      pointer-events: none;
+    }
+
+    /* Dropdown — fixed position so it escapes the header */
+    #notif-dropdown {
+      display: none;
+      position: fixed;
+      top: 64px;
+      right: 16px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-bright);
+      border-radius: var(--radius);
+      width: 320px;
+      max-height: 360px;
+      overflow-y: auto;
+      z-index: 500;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    }
+    #notif-dropdown.open { display: block; }
+
+    .notif-item {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .notif-item:last-child { border-bottom: none; }
+    .notif-item.unread { background: var(--orange-glow); }
+    .notif-empty {
+      padding: 24px 16px;
+      text-align: center;
+      font-size: 13px;
+      color: var(--text-faint);
+    }
+  </style>
 </head>
 <body>
 
@@ -23,35 +92,19 @@
       <span class="streak-badge" id="header-streak"><i data-lucide="flame"></i> — day streak</span>
       <span class="points-badge" id="header-points"><i data-lucide="star"></i> — pts</span>
     </div>
-    <div id="notif-container" style="position: relative; margin-left: 12px;">
-      <button id="notif-bell" style="cursor:pointer;">🔔</button>
 
-      <span id="notif-count" style="
-        display:none;
-        position:absolute;
-        top:-5px;
-        right:-5px;
-        background:red;
-        color:white;
-        border-radius:50%;
-        padding:2px 6px;
-        font-size:12px;
-      "></span>
-
-      <div id="notif-dropdown" style="
-        display:none;
-        position:absolute;
-        right:0;
-        top:30px;
-        background:white;
-        border:1px solid #ccc;
-        width:300px;
-        max-height:300px;
-        overflow-y:auto;
-        z-index:1000;
-      "></div>
+    <!-- Notification bell -->
+    <div id="notif-container" style="position:relative;margin-left:12px;">
+      <button id="notif-bell">
+        <i data-lucide="bell" style="width:18px;height:18px;"></i>
+        <span id="notif-count"></span>
+      </button>
     </div>
-    <div class="banner-buttons" style="margin-left:16px;">
+
+    <!-- Dropdown rendered outside header to avoid clipping -->
+    <div id="notif-dropdown"></div>
+
+    <div class="banner-buttons" style="margin-left:8px;">
       <button id="sign-out">Sign Out</button>
     </div>
     <div id="auth-status" class="auth-status"></div>
@@ -230,6 +283,7 @@
   <script>
     lucide.createIcons();
 
+    // ── Hamburger ─────────────────────────────────────────────────────────────
     const hamburger = document.getElementById('hamburger');
     const sidebar   = document.getElementById('sidebar');
     const overlay   = document.getElementById('sidebar-overlay');
@@ -243,6 +297,22 @@
     overlay.addEventListener('click', closeSidebar);
     document.querySelectorAll('.sidebar-item[data-view]').forEach(btn => {
       btn.addEventListener('click', () => { if (window.innerWidth <= 768) closeSidebar(); });
+    });
+
+    // ── Notification bell toggle ──────────────────────────────────────────────
+    const notifBell     = document.getElementById('notif-bell');
+    const notifDropdown = document.getElementById('notif-dropdown');
+
+    notifBell.addEventListener('click', (e) => {
+      e.stopPropagation();
+      notifDropdown.classList.toggle('open');
+    });
+
+    // Close dropdown when clicking anywhere else
+    document.addEventListener('click', (e) => {
+      if (!notifDropdown.contains(e.target) && e.target !== notifBell) {
+        notifDropdown.classList.remove('open');
+      }
     });
   </script>
 
